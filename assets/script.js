@@ -56,14 +56,25 @@ function startQuiz() {
 }
 
 function displayQuestion() {
-    var current = questions[currentQuestionIndex];
     $('#quiz > h1').text(questions[currentQuestionIndex].question);
     answerButtons.each(function(index) {
-        $(this).text(questions[currentQuestionIndex].answers[index]);
+        $(this).text(currentQuestion.answers[index]);
         $(this).click(checkAnswer(index));
     });
 }
 
 function checkAnswer(index){
-    if ()
+    if (questions[currentQuestionIndex].correct === index) {
+        if (currentQuestionIndex > 5) {
+            showResult();
+        }
+        else {
+            currentQuestionIndex ++;
+            displayQuestion();
+        }
+    }
+}
+function showResult() {
+    quizPage.hide();
+    resultPage.show();
 }
