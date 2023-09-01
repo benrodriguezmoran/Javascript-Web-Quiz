@@ -4,12 +4,14 @@ const quizPage = $('#quiz');
 const resultPage = $('#result');
 const scorePage = $('#score');
 const timeEl = $('#time');
-let time = 75;
+const answerButtons = $('#quiz > button')
+var time = 75;
+var currentQuestionIndex = 0;
 
 const questions = [
     {
         question: "What is used to mark the end of a line in JS?",
-        answers: ["A comma","A period","A semicolon",""],
+        answers: ["A comma","A period","A semicolon","An exclamation"],
         correct: 2
     },
     {
@@ -28,11 +30,11 @@ const questions = [
         correct: 0
     },
 ];
-let currentQuestionIndex
 
 
 
 
+timeEl.text("75")
 quizPage.hide();
 resultPage.hide();
 scorePage.hide();
@@ -52,5 +54,9 @@ function startQuiz() {
 }
 
 function displayQuestion() {
-    
+    var current = questions[currentQuestionIndex];
+    $('#quiz > h1').text(questions[currentQuestionIndex].question)
+    answerButtons.each(function(index) {
+        $(this).text(questions[currentQuestionIndex].answers[index])
+    });
 }
