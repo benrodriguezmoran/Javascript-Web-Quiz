@@ -15,14 +15,14 @@ const questions = [
         correct: 2
     },
     {
-        question: "",
-        answers: ["","","",""],
-        correct: 0
+        question: "Arrays can store what type of information?",
+        answers: ["Integers","Floats","Strings","All of the above"],
+        correct: 3
     },
     {
-        question: "",
-        answers: ["","","",""],
-        correct: 0
+        question: "This is used for interacting with internal code or third party packages",
+        answers: ["CSS","HTML","API","CPU"],
+        correct: 2
     },
     {
         question: "",
@@ -37,7 +37,6 @@ quizPage.hide();
 resultPage.hide();
 scorePage.hide();
 startButton.click(function() {
-    
     var timer = setInterval(function() {
         time --;
         timeEl.text(time);
@@ -60,11 +59,11 @@ function displayQuestion() {
     $('#quiz > h1').text(questions[currentQuestionIndex].question);
     answerButtons.each(function(index) {
         $(this).text(questions[currentQuestionIndex].answers[index]);
-        $(this).click(function() {checkAnswer(index)});
+        $(this).click(function() {checkAnswer(index, this)});
     });
 }
 
-function checkAnswer(index){
+function checkAnswer(index, object){
     if (questions[currentQuestionIndex].correct === index) {
         if (questions[currentQuestionIndex] > questions.keys().length-1){
             showResult();
@@ -77,10 +76,12 @@ function checkAnswer(index){
     }
     else {
         time = time-10;
-        $(this).css("background-color", "red")
+		timeEl.text(time);
+        $(object).css("background-color", "red")
     }
 }
 function showResult() {
+    clearInterval(timer);
     quizPage.hide();
     resultPage.show();
 }
