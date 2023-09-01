@@ -25,10 +25,20 @@ const questions = [
         correct: 2
     },
     {
-        question: "",
-        answers: ["","","",""],
-        correct: 0
+        question: "Javascript has how many variable declaration types?",
+        answers: ["1","2","3","4"],
+        correct: 2
     },
+    {
+        question: "Javascript has how many variable declaration types?",
+        answers: ["1","2","3","4"],
+        correct: 2
+    },
+    {
+        question: "Javascript has how many variable declaration types?",
+        answers: ["1","2","3","4"],
+        correct: 0
+    }
 ];
 
 
@@ -57,28 +67,39 @@ function startQuiz() {
 
 function displayQuestion() {
     $('#quiz > h1').text(questions[currentQuestionIndex].question);
+    
     answerButtons.each(function(index) {
         $(this).text(questions[currentQuestionIndex].answers[index]);
-        $(this).click(function() {checkAnswer(index, this)});
+        $(this).off("click").on("click" ,function() {checkAnswer(index, this)});
+        $(this).css("background-color", "");
     });
+   
 }
 
 function checkAnswer(index, object){
+    if (questions[currentQuestionIndex] > questions.keys().length-1){
+        showResult();
+    }
+    $(object).off("click");
     if (questions[currentQuestionIndex].correct === index) {
-        if (questions[currentQuestionIndex] > questions.keys().length-1){
-            showResult();
-        }
-        else {
-            currentQuestionIndex++;
+        
+        
+        currentQuestionIndex++;
+        console.log(currentQuestionIndex);
+        $(object).css("background-color", "green");
+        answerButtons.prop("disabled", true);
+        setTimeout(function() {
             displayQuestion();
-        }
+            answerButtons.prop("disabled", false);
+        }, 1000);
+        
         
     }
     else {
         time = time-10;
 		timeEl.text(time);
-        $(object).css("background-color", "red")
-    }
+        $(object).css("background-color", "red");
+        }
 }
 function showResult() {
     clearInterval(timer);
