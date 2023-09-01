@@ -32,8 +32,6 @@ const questions = [
 ];
 
 
-
-
 timeEl.text("75")
 quizPage.hide();
 resultPage.hide();
@@ -43,8 +41,12 @@ startButton.click(function() {
     var timer = setInterval(function() {
         time --;
         timeEl.text(time);
+        if (time < 1) {
+            clearInterval(timer);
+        }
     }, 1000)
     startQuiz()
+    
 });
 
 function startQuiz() {
@@ -55,8 +57,13 @@ function startQuiz() {
 
 function displayQuestion() {
     var current = questions[currentQuestionIndex];
-    $('#quiz > h1').text(questions[currentQuestionIndex].question)
+    $('#quiz > h1').text(questions[currentQuestionIndex].question);
     answerButtons.each(function(index) {
-        $(this).text(questions[currentQuestionIndex].answers[index])
+        $(this).text(questions[currentQuestionIndex].answers[index]);
+        $(this).click(checkAnswer(index));
     });
+}
+
+function checkAnswer(index){
+    if ()
 }
