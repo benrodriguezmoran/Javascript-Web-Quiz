@@ -2,12 +2,13 @@ const startPage = $('#start');
 const startButton = $('#startButton')
 const quizPage = $('#quiz');
 const resultPage = $('#result');
-const scorePage = $('#score');
+const scorePage = $('#scoreboard');
 const timeEl = $('#time');
 const answerButtons = $('#quiz > button');
 var time = 75;
+let timer;
 var currentQuestionIndex = 0;
-
+var numberQuestions = 6;
 const questions = [
     {
         question: "What is used to mark the end of a line in JS?",
@@ -30,9 +31,9 @@ const questions = [
         correct: 2
     },
     {
-        question: "Javascript has how many variable declaration types?",
-        answers: ["1","2","3","4"],
-        correct: 2
+        question: "Which is the strict equals comparator?",
+        answers: ["===","==","=","!="],
+        correct: 0
     },
     {
         question: "Javascript has how many variable declaration types?",
@@ -41,25 +42,26 @@ const questions = [
     }
 ];
 
-
-timeEl.text("75")
+timeEl.hide();
+timeEl.text("75");
 quizPage.hide();
 resultPage.hide();
 scorePage.hide();
 startButton.click(function() {
-    var timer = setInterval(function() {
+    timer = setInterval(function() {
         time --;
         timeEl.text(time);
         if (time < 1) {
-            time = 0;
             clearInterval(timer);
+            showResult();
         }
-    }, 1000)
+    }, 1000);
     startQuiz();
     
 });
 
 function startQuiz() {
+    timeEl.show();
     startPage.hide();
     quizPage.show();
     displayQuestion();
@@ -76,33 +78,38 @@ function displayQuestion() {
    
 }
 
-function checkAnswer(index, object){
-    if (questions[currentQuestionIndex] > questions.keys().length-1){
-        showResult();
-    }
-    $(object).off("click");
+function checkAnswer(index, thisButton){
+    
+    $(thisButton).off("click");
     if (questions[currentQuestionIndex].correct === index) {
         
         
         currentQuestionIndex++;
+        if (currentQuestionIndex > numberQuestions-1){
+            clearInterval(timer);
+            showResult();
+            return;
+        }
         console.log(currentQuestionIndex);
-        $(object).css("background-color", "green");
+        $(thisButton).css("background-color", "green");
         answerButtons.prop("disabled", true);
         setTimeout(function() {
             displayQuestion();
             answerButtons.prop("disabled", false);
-        }, 1000);
+        }, 600);
         
         
     }
     else {
         time = time-10;
 		timeEl.text(time);
-        $(object).css("background-color", "red");
+        $(thisButton).css("background-color", "red");
         }
 }
 function showResult() {
-    clearInterval(timer);
+    if (time < 0){time = 0;}
     quizPage.hide();
     resultPage.show();
+    timeEl.hide();
+    $('#result > p > span').text = time;
 }
